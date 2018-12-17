@@ -5,6 +5,9 @@ from time import *
 hauteur = 500
 largeur = 900
 
+# Initialisation du monitoring clavier
+
+
 # Creation des composants
 fenetre = Tk()
 fenetre.title('Pong - Thibault Feugère')
@@ -23,17 +26,16 @@ balle = canevas.create_oval(balle_x0, balle_y0, (balle_x0 + 20), (balle_y0 + 20)
 # Creation raquette du joueur un
 raq1_x0 = 5
 raq1_y0 = 215
-raq1_v_x = 5
+raq1_v_y = 5
 raquette1 = canevas.create_rectangle(raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 + 70), fill="white", width=0, state="disabled")
 
 # Creation raquette du joueur deux
 raq2_x0 = largeur - 4
 raq2_y0 = 215
-raq2_v_x = 5
-raquette1 = canevas.create_rectangle(raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70), fill="white", width=0, state="disabled")
+raq2_v_y = 50
+raquette2 = canevas.create_rectangle(raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70), fill="white", width=0, state="disabled")
 
 # Definition de la fonction de mouvement
-
 def mouvement():
     global balle_x0, balle_y0, balle_v_x, balle_v_y
     balle_x0 += balle_v_x
@@ -52,6 +54,27 @@ def mouvement():
 
     canevas.after(2, mouvement)
     return
+
+# Definition de la fonction commande
+def z_key():
+    global raq1_x0, raq1_y0, raq1_v_y
+    raq1_y0 = -(raq1_v_y)
+    canevas.coords(raquette1, raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 + 70))
+
+def s_key():
+    global raq1_x0, raq1_y0, raq1_v_y
+    raq1_y0 = raq1_v_y
+    canevas.coords(raquette1, raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 - 70))
+
+def up_key():
+    global raq2_x0, raq2_y0, raq2_v_y
+    raq2_y0 = -(raq2_v_y)
+    canevas.coords(raquette2, raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70))
+
+def down_key():
+    global raq2_x0, raq2_y0, raq2_v_y
+    raq2_y0 = raq2_v_y
+    canevas.coords(raquette2, raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70))
 
 # Placement des composants
 canevas.grid()
