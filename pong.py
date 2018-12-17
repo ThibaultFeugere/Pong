@@ -14,29 +14,41 @@ canevas = Canvas(fenetre, width=largeur, height=hauteur, bg='black')
 fenetre.resizable(False,False)
 
 # Creation de la balle
-x0 = 440
-y0 = 240
-v_x = 0.4
-v_y = 0.1
-balle = canevas.create_oval(x0, y0, (x0 + 20), (y0 + 20), fill="white", width=0, state="disabled")
+balle_x0 = 440
+balle_y0 = 240
+balle_v_x = 0.4
+balle_v_y = 0.1
+balle = canevas.create_oval(balle_x0, balle_y0, (balle_x0 + 20), (balle_y0 + 20), fill="white", width=0, state="disabled")
+
+# Creation raquette du joueur un
+raq1_x0 = 5
+raq1_y0 = 215
+raq1_v_x = 5
+raquette1 = canevas.create_rectangle(raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 + 70), fill="white", width=0, state="disabled")
+
+# Creation raquette du joueur deux
+raq2_x0 = largeur - 4
+raq2_y0 = 215
+raq2_v_x = 5
+raquette1 = canevas.create_rectangle(raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70), fill="white", width=0, state="disabled")
 
 # Definition de la fonction de mouvement
 
 def mouvement():
-    global x0, y0, v_x, v_y
-    x0 += v_x
-    y0 += v_y
+    global balle_x0, balle_y0, balle_v_x, balle_v_y
+    balle_x0 += balle_v_x
+    balle_y0 += balle_v_y
 
-    canevas.coords(balle, x0, y0, (x0 + 20), (y0 + 20))
+    canevas.coords(balle, balle_x0, balle_y0, (balle_x0 + 20), (balle_y0 + 20))
 
-    if (x0 + 20) > largeur:
-        v_x = -(v_x)
-    elif x0 < 0:
-        v_x = -(v_x)
-    elif (y0 + 20) > hauteur:
-        v_y = -(v_y)
-    elif y0 < 0:
-        v_y = -(v_y)
+    if (balle_x0 + 20) > largeur:
+        balle_v_x = -(balle_v_x)
+    elif balle_x0 < 0:
+        balle_v_x = -(balle_v_x)
+    elif (balle_y0 + 20) > hauteur:
+        balle_v_y = -(balle_v_y)
+    elif balle_y0 < 0:
+        balle_v_y = -(balle_v_y)
 
     canevas.after(2, mouvement)
     return
