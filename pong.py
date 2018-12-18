@@ -18,6 +18,9 @@ fenetre = Tk()
 fenetre.title('Pong - Thibault Feugère')
 canevas = Canvas(fenetre, width=largeur, height=hauteur, bg='black')
 
+# Affichage score
+score_1 = Text(fenetre, width="100", height="20", borderwidth="3", font="Verdana 11", bg="#ffffff")
+
 # Delimitation
 barre_verticale = canevas.create_line((largeur/2), 0, (largeur/2), hauteur, fill="red", dash=(2,2))
 
@@ -65,9 +68,7 @@ def verif():
     elif balle_x0 < 0:
         balle_v_x = -(balle_v_x)
         score2 += 1
-    elif (balle_y0 + 20) > hauteur:
-        balle_v_y = -(balle_v_y)
-    elif balle_y0 < 0:
+    elif (balle_y0 + 20) > hauteur or balle_y0 < 0:
         balle_v_y = -(balle_v_y)
     canevas.after(2, verif)
 
@@ -110,6 +111,8 @@ canevas.grid()
 quitter.grid()
 mouvement()
 verif()
+score_1.insert(END, "Joueur 1:" + str(score1))
+score_1.grid()
 
 canevas.bind_all('z', z_key)
 canevas.bind_all('s', s_key)
