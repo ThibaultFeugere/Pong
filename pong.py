@@ -2,16 +2,16 @@ from tkinter import *
 from random import *
 from time import *
 
+# Dimensions
 hauteur = 500
 largeur = 900
 
+# Scores
 score1 = 0
 score2 = 0
 
+# Status du jeu
 game_is_launch = False
-
-# Initialisation du monitoring clavier
-
 
 # Creation des composants
 fenetre = Tk()
@@ -37,13 +37,15 @@ raquette1 = canevas.create_rectangle(raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 
 # Creation raquette du joueur deux
 raq2_x0 = largeur - 4
 raq2_y0 = 215
-raq2_v_y = 50
+raq2_v_y = 5
 raquette2 = canevas.create_rectangle(raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70), fill="white", width=0, state="disabled")
 
-# Definition de la fonction de mouvement
+### Fonctions ###
+
+# Fonction mouvement infini
 def mouvement():
     global balle_x0, balle_y0, balle_v_x, balle_v_y, score1, score2, game_is_launch
-    #if game_is_launch == True:
+    '''if game_is_launch == True:'''
     balle_x0 += balle_v_x
     balle_y0 += balle_v_y
 
@@ -51,6 +53,7 @@ def mouvement():
     canevas.after(2, mouvement)
     return
 
+# Fonction de verification avec score
 def verif():
     global balle_x0, balle_y0, balle_v_x, balle_v_y, raq1_x0, raq1_y0, raq1_v_y, score1, score2
     if (balle_x0 + 20) > largeur:
@@ -65,26 +68,25 @@ def verif():
         balle_v_y = -(balle_v_y)
     canevas.after(2, verif)
 
-# Definition de la fonction commande
-def z_key():
+# Fonctions de commande
+def z_key(event):
     global raq1_x0, raq1_y0, raq1_v_y
-    raq1_y0 = -(raq1_v_y)
-    canevas.coords(raquette1, raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 + 5))
-    return
+    raq1_y0 -= raq1_v_y
+    canevas.coords(raquette1, raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 + 70))
 
-def s_key():
+def s_key(event):
     global raq1_x0, raq1_y0, raq1_v_y
-    raq1_y0 = raq1_v_y
-    canevas.coords(raquette1, raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 - 70))
+    raq1_y0 += raq1_v_y
+    canevas.coords(raquette1, raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 + 70))
 
-def up_key():
+def up_key(event):
     global raq2_x0, raq2_y0, raq2_v_y
-    raq2_y0 = -(raq2_v_y)
+    raq2_y0 -= raq2_v_y
     canevas.coords(raquette2, raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70))
 
-def down_key():
+def down_key(event):
     global raq2_x0, raq2_y0, raq2_v_y
-    raq2_y0 = raq2_v_y
+    raq2_y0 += raq2_v_y
     canevas.coords(raquette2, raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70))
 
 # Definition de la fonction start / pause
@@ -105,6 +107,11 @@ canevas.grid()
 quitter.grid()
 mouvement()
 verif()
+
+canevas.bind_all('z', z_key)
+canevas.bind_all('s', s_key)
+canevas.bind_all('<Up>', up_key)
+canevas.bind_all('<Down>', down_key)
 
 # Boucle infinie
 fenetre.mainloop()
