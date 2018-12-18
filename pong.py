@@ -18,6 +18,9 @@ fenetre = Tk()
 fenetre.title('Pong - Thibault Feugère')
 canevas = Canvas(fenetre, width=largeur, height=hauteur, bg='black')
 
+# Delimitation
+barre_verticale = canevas.create_line((largeur/2), 0, (largeur/2), hauteur, fill="red", dash=(2,2))
+
 # Empêche de redimenssionner la fenêtre
 fenetre.resizable(False,False)
 
