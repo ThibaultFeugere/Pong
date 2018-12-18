@@ -5,6 +5,11 @@ from time import *
 hauteur = 500
 largeur = 900
 
+score1 = 0
+score2 = 0
+
+game_is_launch = False
+
 # Initialisation du monitoring clavier
 
 
@@ -37,29 +42,35 @@ raquette2 = canevas.create_rectangle(raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 
 
 # Definition de la fonction de mouvement
 def mouvement():
-    global balle_x0, balle_y0, balle_v_x, balle_v_y
+    global balle_x0, balle_y0, balle_v_x, balle_v_y, score1, score2, game_is_launch
+    #if game_is_launch == True:
     balle_x0 += balle_v_x
     balle_y0 += balle_v_y
 
     canevas.coords(balle, balle_x0, balle_y0, (balle_x0 + 20), (balle_y0 + 20))
+    canevas.after(2, mouvement)
+    return
 
+def verif():
+    global balle_x0, balle_y0, balle_v_x, balle_v_y, raq1_x0, raq1_y0, raq1_v_y, score1, score2
     if (balle_x0 + 20) > largeur:
         balle_v_x = -(balle_v_x)
+        score1 += 1
     elif balle_x0 < 0:
         balle_v_x = -(balle_v_x)
+        score2 += 1
     elif (balle_y0 + 20) > hauteur:
         balle_v_y = -(balle_v_y)
     elif balle_y0 < 0:
         balle_v_y = -(balle_v_y)
-
-    canevas.after(2, mouvement)
-    return
+    canevas.after(2, verif)
 
 # Definition de la fonction commande
 def z_key():
     global raq1_x0, raq1_y0, raq1_v_y
     raq1_y0 = -(raq1_v_y)
-    canevas.coords(raquette1, raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 + 70))
+    canevas.coords(raquette1, raq1_x0, raq1_y0, (raq1_x0 + 14), (raq1_y0 + 5))
+    return
 
 def s_key():
     global raq1_x0, raq1_y0, raq1_v_y
@@ -76,9 +87,27 @@ def down_key():
     raq2_y0 = raq2_v_y
     canevas.coords(raquette2, raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70))
 
+# Definition de la fonction start / pause
+'''
+def launch():
+    global game_is_launch
+    game_is_launch = True
+    return game_is_launch
+'''
+
+# Creation du menu
+#start = Button(fenetre, text="Commencer", command=launch)
+quitter = Button(fenetre, text="Quitter", command=fenetre.quit)
+
 # Placement des composants
 canevas.grid()
+#start.grid()
+quitter.grid()
 mouvement()
+verif()
 
 # Boucle infinie
 fenetre.mainloop()
+
+print('''Le joueur 1 a''', score1, '''point(s)''')
+print('''Le joueur 2 a''', score2, '''point(s)''')
