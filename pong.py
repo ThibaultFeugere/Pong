@@ -9,6 +9,8 @@ largeur = 900
 # Scores
 score1 = 0
 score2 = 0
+suppr_score_1 = 0
+suppr_score_2 = 0
 
 # Status du jeu
 game_is_launch = False
@@ -57,15 +59,22 @@ def mouvement():
     canevas.after(2, mouvement)
     return
 
+score_1 = canevas.create_text(370, 20, text="Joueur 1 : "+str(score1), fill="white", font="Verdana 11")
+score_2 = canevas.create_text(530, 20, text="Joueur 2 : "+str(score2), fill="white", font="Verdana 11")
+
 # Fonction de verification avec score
 def verif_balle():
-    global balle_x0, balle_y0, balle_v_x, balle_v_y, raq1_x0, raq1_y0, raq1_v_y, score1, score2
+    global balle_x0, balle_y0, balle_v_x, balle_v_y, raq1_x0, raq1_y0, raq1_v_y, score1, score2, score_1, score_2, suppr_score_1, suppr_score_2
     if (balle_x0 + 20) > largeur:
         balle_v_x = -(balle_v_x)
         score1 += 1
+        suppr_score_1 = canevas.delete(score_1)
+        score_1 = canevas.create_text(370, 20, text="Joueur 1 : "+str(score1), fill="white", font="Verdana 11")
     elif balle_x0 < 0:
         balle_v_x = -(balle_v_x)
         score2 += 1
+        suppr_score_2 = canevas.delete(score_2)
+        score_2 = canevas.create_text(530, 20, text="Joueur 2 : "+str(score2), fill="white", font="Verdana 11")
     elif (balle_y0 + 20) > hauteur or balle_y0 < 0:
         balle_v_y = -(balle_v_y)
     canevas.after(2, verif_balle)
@@ -120,9 +129,6 @@ def pause():
 start = Button(fenetre, text="Commencer", command=launch)
 pause = Button(fenetre, text="Pause", command=pause)
 quitter = Button(fenetre, text="Quitter", command=fenetre.quit)
-
-score_1 = canevas.create_text(370, 20, text="Joueur 1 : "+str(score1), fill="white", font="Verdana 11")
-score_2 = canevas.create_text(530, 20, text="Joueur 2 : "+str(score2), fill="white", font="Verdana 11")
 
 # Placement des composants
 canevas.grid()
