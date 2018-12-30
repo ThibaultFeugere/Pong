@@ -50,17 +50,16 @@ raquette2 = canevas.create_rectangle(raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 
 # Fonction mouvement infini
 def mouvement():
     global balle_x0, balle_y0, balle_v_x, balle_v_y, game_is_launch
-
+    #print(canevas.find_overlapping(raquette1))
     if game_is_launch == True:
         balle_x0 += balle_v_x
         balle_y0 += balle_v_y
         canevas.coords(balle, balle_x0, balle_y0, (balle_x0 + 20), (balle_y0 + 20))
+        print(balle_x0)
+        print(balle_y0)
 
     canevas.after(2, mouvement)
     return
-
-score_1 = canevas.create_text(370, 20, text="Joueur 1 : "+str(score1), fill="white", font="Verdana 11")
-score_2 = canevas.create_text(530, 20, text="Joueur 2 : "+str(score2), fill="white", font="Verdana 11")
 
 # Fonction de verification avec score
 def verif_balle():
@@ -105,6 +104,11 @@ def down_key(event):
         raq2_y0 += raq2_v_y
         canevas.coords(raquette2, raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70))
 
+def rebond_raquettes():
+    global raq1_x0, raq1_y0, raq2_x0, raq2_y0, balle_x0, balle_y0, balle_v_x, balle_v_y
+    if balle_x0 <= (raq1_x0 + 14):
+        balle_v_x = -(balle_v_x)
+
 def verif_raquettes():
     global raq1_x0, raq2_x0, raq1_y0, raq2_y0, hauteur
     if raq1_y0 < 0:
@@ -139,6 +143,8 @@ verif_raquettes()
 mouvement()
 verif_balle()
 
+score_1 = canevas.create_text(370, 20, text="Joueur 1 : "+str(score1), fill="white", font="Verdana 11")
+score_2 = canevas.create_text(530, 20, text="Joueur 2 : "+str(score2), fill="white", font="Verdana 11")
 
 # Detection de touches pressees
 canevas.bind_all('z', z_key)
