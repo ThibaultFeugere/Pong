@@ -115,6 +115,11 @@ def rebond_raquettes():
     elif len(canevas.find_overlapping(canevas.coords(raquette2)[0], canevas.coords(raquette2)[1], canevas.coords(raquette2)[2], canevas.coords(raquette2)[3]))>1:
         balle_v_x = -(balle_v_x)
         balle_v_y = -(balle_v_y)
+
+# Definition affichage menu principal
+def menu_principal():
+    canevas.delete(ALL)
+
 # Definition de la fonction start / pause
 def launch():
     global game_is_launch
@@ -124,24 +129,28 @@ def pause():
     global game_is_launch
     game_is_launch = False
 
+# Definition affichage vainceur
 def perdu():
     canevas.delete(ALL)
-    canevas.create_text(fenetre_x // 2, 300, fill = "red", font = ("Roboto", 75), text = "GAME OVER")
+    canevas.create_text(largeur / 2, 300, fill = "white", font = ("Roboto", 55), text = "Le joueur 1 a gagné")
 
 # Creation du menu
 start = Button(fenetre, text="Commencer", command=launch)
 pause = Button(fenetre, text="Pause", command=pause)
 quitter = Button(fenetre, text="Quitter", command=fenetre.quit)
+accueil = Button(fenetre, text = "Accueil", command = menu_principal)
 
 # Placement des composants
-canevas.grid()
-start.grid()
-pause.grid()
-quitter.grid()
+canevas.grid(row = 0, columnspan = 3)
+
+accueil.grid(column = 0, pady = 15)
+start.grid(row = 1,column = 1, ipadx = 30)
+pause.grid(row = 2, column = 1, pady = 15)
+quitter.grid(row = 1, column = 2)
+
 rebond_raquettes()
 mouvement()
 verif_balle()
-perdu()
 
 score_1 = canevas.create_text(370, 20, text="Joueur 1 : "+str(score1), fill="white", font="Verdana 11")
 score_2 = canevas.create_text(530, 20, text="Joueur 2 : "+str(score2), fill="white", font="Verdana 11")
