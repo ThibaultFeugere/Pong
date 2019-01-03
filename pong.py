@@ -17,13 +17,13 @@ game_is_launch = False
 
 # Creation des composants
 fenetre = Tk()
-fenetre.title('Pong - Thibault Feugère')
+fenetre.title('Pong - Thibault Feugere')
 canevas = Canvas(fenetre, width=largeur, height=hauteur, bg='black')
 
 # Delimitation
 barre_verticale = canevas.create_line((largeur/2), 0, (largeur/2), hauteur, fill="red", dash=(2,2))
 
-# Empêche de redimenssionner la fenêtre
+# Empeche de redimenssionner la fenetre
 fenetre.resizable(False,False)
 
 # Creation de la balle
