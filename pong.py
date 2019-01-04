@@ -31,8 +31,8 @@ balle_x0 = 440
 balle_x1 = 460
 balle_y0 = 240
 balle_y1 = 260
-balle_v_x = 0.3
-balle_v_y = 0.3
+balle_v_x = 4.2
+balle_v_y = 1.2
 balle = canevas.create_oval(balle_x0, balle_y0, balle_x1, balle_y1, fill="white", width=0, state="disabled")
 
 # Creation raquette du joueur un
@@ -60,10 +60,17 @@ def mouvement():
         balle_x0 += balle_v_x
         balle_y0 += balle_v_y
         canevas.coords(balle, balle_x0, balle_y0, (balle_x0 + 20), (balle_y0 + 20))
-
+    #if (balle_y0 < raq1_y1) and (balle_y1 > raq1_y0) and (balle_x0 < raq1_x1):
+    if canevas.coords(raquette2)[1] <= canevas.coords(balle)[3] <= canevas.coords(raquette2)[3] and canevas.coords(balle)[2] == canevas.coords(raquette2)[0] or canevas.coords(raquette1)[1] <= canevas.coords(balle)[3] <= canevas.coords(raquette2)[3] and canevas.coords(balle)[0] == canevas.coords(raquette1)[2]:
+        balle_v_x = -(balle_v_x)
     canevas.after(2, mouvement)
     return
 
+def rebond_raquettes():
+    global balle_v_x, balle_v_y
+    #if (canevas.coords(balle)[3]>canevas.coords(raquette1)[1]) and (canevas.coords(balle)[0]<canevas.coords(raquette1)[2]) and (canevas.coords(balle)[2]>canevas.coords(raquette1)[0]):
+        #balle_v_x = -(balle_v_x)
+    pass
 # Fonction de verification avec score
 def verif_balle():
     global balle_x0, balle_y0, balle_x1, balle_y1, balle_v_x, balle_v_y, raq1_x0, raq1_y0, raq1_v_y, score1, score2, score_1, score_2, suppr_score_1, suppr_score_2
@@ -107,15 +114,6 @@ def down_key(event):
         raq2_y0 += raq2_v_y
         canevas.coords(raquette2, raq2_x0, raq2_y0, (raq2_x0 - 14), (raq2_y0 + 70))
 
-def rebond_raquettes():
-    global balle_v_x, balle_v_y
-    if len(canevas.find_overlapping(canevas.coords(raquette1)[0], canevas.coords(raquette1)[1], canevas.coords(raquette1)[2], canevas.coords(raquette1)[3]))>1:
-        balle_v_x = -(balle_v_x)
-        balle_v_y = -(balle_v_y)
-    elif len(canevas.find_overlapping(canevas.coords(raquette2)[0], canevas.coords(raquette2)[1], canevas.coords(raquette2)[2], canevas.coords(raquette2)[3]))>1:
-        balle_v_x = -(balle_v_x)
-        balle_v_y = -(balle_v_y)
-
 # Definition affichage menu principal
 def menu_principal():
     canevas.delete(ALL)
@@ -131,8 +129,9 @@ def pause():
 
 # Definition affichage vainceur
 def perdu():
-    canevas.delete(ALL)
-    canevas.create_text(largeur / 2, 300, fill = "white", font = ("Roboto", 55), text = "Le joueur 1 a gagné")
+    if score1 == 10:    
+        canevas.delete(ALL)
+        canevas.create_text(largeur / 2, 300, fill = "white", font = ("Roboto", 55), text = "Le joueur 1 a gagné")
 
 # Creation du menu
 start = Button(fenetre, text="Commencer", command=launch)
