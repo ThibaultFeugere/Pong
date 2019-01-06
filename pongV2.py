@@ -1,6 +1,6 @@
 from tkinter import *
 from random import *
-from time import *
+import time
 from tkinter.colorchooser import *
 
 # Dimensions
@@ -20,7 +20,7 @@ balle_x1 = balle_x0 + 20
 balle_y0 = 240
 balle_y1 = balle_y0 + 20
 vx_balle = 5.2
-vy_balle = 1
+vy_balle = 1.3
 
 # Creation raquette1
 raq1_x0 = 10
@@ -43,15 +43,15 @@ def background_color():
     print(color)
     return color
 
-color = background_color()
+color_bg = background_color()
 
 # Creation des composants
 fenetre = Tk()
 fenetre.title('Pong - Thibault Feugere')
-canevas = Canvas(fenetre, width=largeur, height=hauteur, bg=color)
+canevas = Canvas(fenetre, width=largeur, height=hauteur, bg=color_bg)
 
 # Pour eviter le bug OUT OF RANGE
-balle = canevas.create_oval(balle_x0, balle_y0, balle_x1, balle_y1, fill = "red")
+balle = canevas.create_oval(balle_x0, balle_y0, balle_x1, balle_y1, fill = "white")
 
 # Empeche de redimenssionner la fenetre
 fenetre.resizable(False,False)
@@ -60,16 +60,6 @@ fenetre.resizable(False,False)
 def menu():
     canevas.delete(ALL)
     canevas.create_text(450, 200, fill = "white", font = ("Roboto", 70), text = "ACCUEIL")
-
-    # Creation des boutons
-    quitter = Button(fenetre, text="Quitter", command=fenetre.quit)
-    accueil = Button(fenetre, text = "Accueil", command = menu)
-    jouer = Button(fenetre, text="Jouer", command = jeu)
-
-    # Placement des boutons
-    accueil.grid(column = 0, pady = 15)
-    jouer.grid()
-    quitter.grid(row = 1, column = 2)
 
 # Definition du jeu
 def jeu():
@@ -135,6 +125,8 @@ def jeu():
             score_1 = canevas.create_text(370, 20, text="Joueur 1 : "+str(score1), fill="white", font="Verdana 11")
             if score1 == 3:
                 victoire1()
+                time.sleep(3)
+                menu()
 
         elif canevas.coords(balle)[0] < 0:
             global score_2
@@ -145,6 +137,8 @@ def jeu():
             score_2 = canevas.create_text(530, 20, text="Joueur 2 : "+str(score2), fill="white", font="Verdana 11")
             if score2 == 3:
                 victoire2()
+                time.sleep(3)
+                menu()
 
         elif canevas.coords(balle)[3] > hauteur or canevas.coords(balle)[1] < 0 :
             vy_balle = -(vy_balle)
@@ -163,10 +157,19 @@ def victoire2():
     canevas.delete(ALL)
     canevas.create_text(largeur / 2, 300, fill = "white", font = ("Roboto", 50), text = "JOUEUR 2 A GAGNE")
 
-
 # Placement des composants
 canevas.grid(row = 0, columnspan = 3)
 menu()
+
+# Creation des boutons
+quitter = Button(fenetre, text="Quitter", command=fenetre.quit)
+accueil = Button(fenetre, text = "Accueil", command = menu)
+jouer = Button(fenetre, text="Jouer", command = jeu)
+
+# Placement des boutons
+accueil.grid(column = 0, pady = 15)
+jouer.grid()
+quitter.grid(row = 1, column = 2)
 
 # Boucle infinie
 fenetre.mainloop()
